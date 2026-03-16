@@ -1,0 +1,47 @@
+.request-ride-container {
+    padding: 30px;
+}
+
+.request-ride-box {
+    width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.request-ride-box form {
+    display: flex;
+    flex-direction: column;
+}
+
+.request-ride-box label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.request-ride-box input,
+.request-ride-box select,
+.request-ride-box textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.request-ride-box textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.request-ride-box button {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.request-ride-box button:hover {
+    background-color: #0056b3;
+}

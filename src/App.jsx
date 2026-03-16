@@ -22,6 +22,7 @@ function MainApp(){
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/rides" element={<Rides />} />
                 <Route path="/rides/:id" element={<RideDetails />} />
+                <Route path="/requests/:id" element={<RideDetails />} />
                 <Route path="/newride" element={<NewRide />} />
                 <Route path="/requestride" element={<RequestRide />} />
                 <Route path="/profile" element={<Profile />} />

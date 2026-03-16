@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import loginCover from '../assets/login_cover.png';
 import { Link,useNavigate } from 'react-router-dom';
 import './Login.css';
@@ -7,8 +7,8 @@ import { loginUser } from '../redux/userSlice';
 
 
 function Login(){
-    let [username, setUsername] = React.useState("");
-    let [password, setPassword] = React.useState("");
+    let [username, setUsername] = useState("");
+    let [password, setPassword] = useState("");
     const dispatch = useDispatch();
     const users = useSelector((state) => state.user.users);
     const Navigate = useNavigate();
@@ -39,6 +39,7 @@ function Login(){
                         
                         <label htmlFor="password">Password</label>
                         <input type="password" id="password" value={password} onChange={(e)=>setPassword(e.target.value)} />
+                        
                         <button type="submit">Login</button>
                         <h6>Don't have an account? <Link to="/register">Register</Link></h6>
                     </form>

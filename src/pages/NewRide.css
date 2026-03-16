@@ -1,0 +1,47 @@
+.new-ride-container {
+    padding: 30px;
+}
+
+.new-ride-box {
+    width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.new-ride-box form {
+    display: flex;
+    flex-direction: column;
+}
+
+.new-ride-box label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.new-ride-box input,
+.new-ride-box select,
+.new-ride-box textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.new-ride-box textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.new-ride-box button {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.new-ride-box button:hover {
+    background-color: #0056b3;
+}

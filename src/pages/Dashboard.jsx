@@ -1,21 +1,30 @@
-import React from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 function Dashboard() {
-    const currentUser = useSelector((state) => state.user.currentUser);
-    const rides = useSelector((state) => state.ride?.rides || []);
+    const currentUser = useSelector(state => state.user.currentUser);
+    const rides = useSelector(state => state.ride.rides);
+    const bookings = useSelector(state => state.ride.bookings);
+    const requests = useSelector(state => state.ride.requests);
     const navigate = useNavigate();
-    const bookings = useSelector((state) => state.ride?.bookings || []);
-    const requests = useSelector((state) => state.ride?.requests || []);
     useEffect(() => {
         if (!currentUser) {
             alert("Please Login First");
             navigate("/login");
         }
     },[currentUser, navigate]);
+
+    function safeNavigate(path) {
+        if (!currentUser) {
+            alert("Please Login First");
+            navigate("/login");
+            return;
+        }
+        navigate(path);
+    }
+
     const myBookings = bookings.filter((booking) => booking.userId === currentUser?.id);
     const myPostedRides = rides.filter((ride) => ride.createdBy === currentUser?.id);
     const myRequests = requests.filter((request) => request.userId === currentUser?.id);
@@ -44,57 +53,57 @@ function Dashboard() {
             </div>
 
             <div className="quick-actions">
-            <button onClick={() => navigate("/rides")}>View All Rides</button>
-            <button onClick={() => navigate("/newride")}>Post New Ride</button>
-            <button onClick={() => navigate("/requestride")}>Request Ride</button>
-            <button onClick={() => navigate("/profile")}>My Profile</button>
+                <button onClick={() => safeNavigate("/rides")}>View All Rides</button>
+                <button onClick={() => safeNavigate("/newride")}>Post New Ride</button>
+                <button onClick={() => safeNavigate("/requestride")}>Request Ride</button>
+                <button onClick={() => safeNavigate("/profile")}>My Profile</button>
             </div>
 
             <div className="dashboard-sections">
-            <div className="dashboard-card">
-                <h2>Recent Bookings</h2>
-                {myBookings.length > 0 ? (
-                <ul>
-                    {myBookings.slice(0, 3).map((booking) => (
-                    <li key={booking.id}>
-                        Ride ID: {booking.rideId}
-                    </li>
-                    ))}
-                </ul>
-                ) : (
-                <p>No bookings yet.</p>
-                )}
-            </div>
+                <div className="dashboard-card">
+                    <h2>Recent Bookings</h2>
+                    {myBookings.length > 0 ? (
+                    <ul>
+                        {myBookings.slice(0, 3).map((booking) => (
+                        <li key={booking.id}>
+                            Ride ID: {booking.rideId}
+                        </li>
+                        ))}
+                    </ul>
+                    ) : (
+                    <p>No bookings yet.</p>
+                    )}
+                </div>
 
-            <div className="dashboard-card">
-                <h2>My Posted Rides</h2>
-                {myPostedRides.length > 0 ? (
-                <ul>
-                    {myPostedRides.slice(0, 3).map((ride) => (
-                    <li key={ride.id}>
-                        {ride.pickup} to {ride.destination}
-                    </li>
-                    ))}
-                </ul>
-                ) : (
-                <p>No rides posted yet.</p>
-                )}
-            </div>
+                <div className="dashboard-card">
+                    <h2>My Posted Rides</h2>
+                    {myPostedRides.length > 0 ? (
+                    <ul>
+                        {myPostedRides.slice(0, 3).map((ride) => (
+                        <li key={ride.id}>
+                            {ride.pickup} to {ride.destination}
+                        </li>
+                        ))}
+                    </ul>
+                    ) : (
+                    <p>No rides posted yet.</p>
+                    )}
+                </div>
 
-            <div className="dashboard-card">
-                <h2>Recent Requests</h2>
-                {myRequests.length > 0 ? (
-                <ul>
-                    {myRequests.slice(0, 3).map((request) => (
-                    <li key={request.id}>
-                        {request.pickup} to {request.destination}
-                    </li>
-                    ))}
-                </ul>
-                ) : (
-                <p>No ride requests yet.</p>
-                )}
-            </div>
+                <div className="dashboard-card">
+                    <h2>Recent Requests</h2>
+                    {myRequests.length > 0 ? (
+                    <ul>
+                        {myRequests.slice(0, 3).map((request) => (
+                        <li key={request.id}>
+                            {request.pickup} to {request.destination}
+                        </li>
+                        ))}
+                    </ul>
+                    ) : (
+                    <p>No ride requests yet.</p>
+                    )}
+                </div>
             </div>
         </div>
     );

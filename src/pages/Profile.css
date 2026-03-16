@@ -1,0 +1,40 @@
+.profile-container {
+    padding: 30px;
+}
+
+.profile-box {
+    width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.profile-box form {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-box label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.profile-box input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.profile-box button {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile-box button:hover {
+    background-color: #0056b3;
+}

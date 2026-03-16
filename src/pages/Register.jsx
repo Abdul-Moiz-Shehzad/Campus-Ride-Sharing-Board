@@ -1,16 +1,16 @@
-import React from 'react';
 import loginCover from '../assets/login_cover.png';
 import { Link } from 'react-router-dom';
 import './Register.css';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 function Register(){
-    let [username, setUsername] = React.useState("");
-    let [password, setPassword] = React.useState("");
-    let [confirmPassword, setConfirmPassword] = React.useState("");
-    let [phone, setPhone] = React.useState("");
+    let [username, setUsername] = useState("");
+    let [password, setPassword] = useState("");
+    let [confirmPassword, setConfirmPassword] = useState("");
+    let [phone, setPhone] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -36,6 +36,7 @@ function Register(){
         setUsername("");
         setPassword("");
         setConfirmPassword("");
+        alert("Registration successful! Please login.");
         navigate("/login");
     }
 
