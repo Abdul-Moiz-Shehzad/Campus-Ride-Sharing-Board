@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addRide } from "../redux/rideSlice";
+import { logoutUser } from "../redux/userSlice";
 import "./NewRide.css";
 
 function NewRide() {
     const currentUser = useSelector(state => state.user.currentUser);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     const [pickup, setPickup] = useState("");
     const [destination, setDestination] = useState("");
@@ -17,11 +21,18 @@ function NewRide() {
     const [notes, setNotes] = useState("");
 
     useEffect(() => {
-        if (!currentUser) {
+        if (!currentUser && !isLoggingOut) {
             alert("Please Login First");
             navigate("/login");
         }
-    }, [currentUser, navigate]);
+    }, [currentUser, isLoggingOut, navigate]);
+
+    function logout() {
+        setIsLoggingOut(true);
+        dispatch(logoutUser());
+        alert("Logged out successfully");
+        navigate("/login");
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -35,13 +46,13 @@ function NewRide() {
             id: Date.now(),
             driverName: currentUser.username,
             createdBy: currentUser.id,
-            pickup: pickup,
-            destination: destination,
-            departureTime: departureTime,
+            pickup,
+            destination,
+            departureTime,
             availableSeats: Number(availableSeats),
-            vehicleType: vehicleType,
+            vehicleType,
             contactInfo: currentUser.phone,
-            notes: notes
+            notes
         };
 
         dispatch(addRide(newRide));
@@ -59,12 +70,45 @@ function NewRide() {
     }
 
     return (
-        <div className="new-ride-container">
-            <h1>Post a New Ride</h1>
+        <div className="newride-page">
 
-            <div className="new-ride-box">
-                <form onSubmit={handleSubmit}>
-                    <label>Pickup</label>
+            <div className="newride-topbar">
+                <div>
+                    <h1>Post a New Ride</h1>
+                    <p className="newride-subtitle">
+                        Share your ride with other students
+                    </p>
+                </div>
+
+                <button onClick={() => navigate("/dashboard")}>
+                    Back to Dashboard
+                </button>
+            </div>
+
+
+            <div className="newride-card">
+
+                <div className="driver-panel">
+                    <div className="driver-avatar">
+                        {currentUser?.username?.charAt(0).toUpperCase()}
+                    </div>
+
+                    <h3>{currentUser?.username}</h3>
+
+                    <p className="driver-role">Driver</p>
+
+                    <a
+                        className="driver-phone"
+                        href={`tel:${currentUser?.phone}`}
+                    >
+                        {currentUser?.phone}
+                    </a>
+                </div>
+
+
+                <form className="newride-form" onSubmit={handleSubmit}>
+
+                    <label>Pickup Location</label>
                     <input
                         type="text"
                         value={pickup}
@@ -109,8 +153,12 @@ function NewRide() {
                         onChange={(e) => setNotes(e.target.value)}
                     />
 
-                    <button type="submit">Post Ride</button>
+                    <button type="submit">
+                        Post Ride
+                    </button>
+
                 </form>
+
             </div>
         </div>
     );

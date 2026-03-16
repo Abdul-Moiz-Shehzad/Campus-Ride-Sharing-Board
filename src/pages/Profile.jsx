@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateProfile } from "../redux/userSlice";
+import { updateUserInfoInPosts } from "../redux/rideSlice";
 import "./Profile.css";
 
 function Profile() {
     const currentUser = useSelector(state => state.user.currentUser);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -42,22 +44,60 @@ function Profile() {
 
         const updatedUser = {
             id: currentUser.id,
-            username: username,
-            phone: phone,
-            password: password
+            username,
+            phone,
+            password
         };
 
         dispatch(updateProfile(updatedUser));
+
+        dispatch(updateUserInfoInPosts({
+            userId: currentUser.id,
+            username,
+            phone
+        }));
+
         alert("Profile updated successfully");
+
         navigate("/dashboard");
     }
 
     return (
-        <div className="profile-container">
-            <h1>My Profile</h1>
+        <div className="profile-page">
 
-            <div className="profile-box">
-                <form onSubmit={handleSubmit}>
+            <div className="profile-topbar">
+                <div>
+                    <h1>My Profile</h1>
+                    <p className="profile-subtitle">
+                        Update your personal information
+                    </p>
+                </div>
+
+                <button onClick={() => navigate("/dashboard")}>
+                    Back to Dashboard
+                </button>
+            </div>
+
+
+            <div className="profile-card">
+
+                <div className="profile-avatar-section">
+                    <div className="profile-avatar">
+                        {username ? username.charAt(0).toUpperCase() : "U"}
+                    </div>
+
+                    <h3>{username}</h3>
+
+                    <p className="profile-phone">
+                        <a href={`tel:${phone}`}>
+                            {phone}
+                        </a>
+                    </p>
+                </div>
+
+
+                <form className="profile-form" onSubmit={handleSubmit}>
+
                     <label>Username</label>
                     <input
                         type="text"
@@ -86,9 +126,14 @@ function Profile() {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
 
-                    <button type="submit">Save Changes</button>
+                    <button type="submit">
+                        Save Changes
+                    </button>
+
                 </form>
+
             </div>
+
         </div>
     );
 }

@@ -1,12 +1,70 @@
-.dashboard-container {
+.dashboard-page {
     padding: 30px;
+    background-color: #f7f9fc;
+    min-height: 100vh;
 }
 
-.welcome-box {
+.dashboard-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 25px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+}
+
+.dashboard-topbar h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.topbar-subtitle {
+    margin: 6px 0 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.logout-button {
+    padding: 10px 16px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: #b52a37;
+}
+
+.dashboard-hero-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #007bff, #4da3ff);
+    color: white;
+    padding: 28px;
+    border-radius: 14px;
+    margin-bottom: 25px;
+}
+
+.dashboard-hero-text h2 {
+    margin: 0 0 10px 0;
+    font-size: 28px;
+}
+
+.dashboard-hero-text p {
+    margin: 0;
+    max-width: 600px;
+    line-height: 1.5;
+}
+
+.dashboard-hero-badge {
+    background-color: rgba(255, 255, 255, 0.18);
+    padding-top:12px;
+    padding-left: 18px;
+    padding-right:18px;
+    padding-bottom: 12px;
+    border-radius: 999px;
+    font-size: 14px;
 }
 
 .stats-section {
@@ -17,35 +75,45 @@
 
 .stat-card {
     flex: 1;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    padding: 22px;
     text-align: center;
+    border: 1px solid #e3e7ee;
+}
+
+.stat-card h3 {
+    margin: 0;
+    font-size: 30px;
+    color: #007bff;
+}
+
+.stat-card p {
+    margin-top: 8px;
+    color: #555;
 }
 
 .quick-actions {
     display: flex;
     gap: 15px;
     margin-bottom: 30px;
-    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
-.quick-actions button{
-    width: 350px;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
+.quick-actions button {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px;
+    background-color: white;
+    color: #007bff;
+    border: 1px solid #d5dbe5;
+    border-radius: 10px;
     cursor: pointer;
+    font-weight: 600;
 }
 
-.quick-actions button:hover{
-    background-color: #0056b3;
-}
-
-.quick-actions button:focus{
-    outline: none;
+.quick-actions button:hover {
+    background-color: #eef5ff;
 }
 
 .dashboard-sections {
@@ -56,8 +124,58 @@
 
 .dashboard-card {
     flex: 1;
-    min-width: 250px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    min-width: 280px;
+    background-color: white;
+    border: 1px solid #e3e7ee;
+    border-radius: 12px;
     padding: 20px;
+}
+
+.dashboard-card h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.dashboard-card ul {
+    padding-left: 18px;
+    margin: 0;
+}
+
+.info-item {
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.ride-summary {
+    padding: 12px 0;
+    border-top: 1px solid #f0f0f0;
+}
+
+.ride-summary:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+.status {
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+.status.accepted {
+    color: #198754;
+}
+
+.status.pending {
+    color: #d97706;
+}
+
+.dashboard-card a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.dashboard-card a:hover {
+    text-decoration: underline;
 }

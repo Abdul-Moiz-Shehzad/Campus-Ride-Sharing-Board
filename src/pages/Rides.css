@@ -1,114 +1,151 @@
-.rides-container {
-    padding: 30px;
+.rides-page{
+    padding:30px;
+    background:#f7f9fc;
+    min-height:100vh;
 }
 
-.rides-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.rides-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
 }
 
-.rides-header button {
-    padding: 8px 14px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.rides-topbar h1{
+    margin:0;
 }
 
-.rides-header button:hover {
-    background-color: #0056b3;
+.subtitle{
+    margin-top:5px;
+    color:#666;
+    font-size:14px;
 }
 
-.view-toggle {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
+.topbar-actions{
+    display:flex;
+    gap:10px;
 }
 
-.view-toggle button {
-    padding: 10px 18px;
-    background-color: #e9ecef;
-    color: black;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.topbar-actions button{
+    padding:8px 14px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
 }
 
-.view-toggle button:hover {
-    background-color: #d6dbe1;
+.topbar-actions button:hover{
+    background:#0056b3;
 }
 
-.view-toggle .active-toggle {
-    background-color: #007bff;
-    color: white;
+.rides-hero{
+    background:white;
+    padding:18px;
+    border-radius:10px;
+    margin-bottom:20px;
+    border:1px solid #e3e7ee;
 }
 
-.filter-box {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
+.view-toggle{
+    display:flex;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.view-toggle button{
+    padding:10px 18px;
+    background:#e9ecef;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.view-toggle .active-toggle{
+    background:#007bff;
+    color:white;
+}
+
+.filter-box{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
 }
 
 .filter-box input,
-.filter-box select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.filter-box select{
+    padding:8px;
+    border-radius:6px;
+    border:1px solid #ccc;
 }
 
-.filter-box button {
-    padding: 8px 14px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.filter-box button{
+    padding:8px 14px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:6px;
 }
 
-.filter-box button:hover {
-    background-color: #0056b3;
+.clear-btn{
+    background:#6c757d !important;
 }
 
-.rides-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+.rides-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
 }
 
-.ride-card {
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
+.ride-card{
+    width:280px;
+    background:white;
+    border-radius:10px;
+    border:1px solid #e3e7ee;
+    padding:18px;
 }
 
-.ride-card h2 {
-    margin-top: 0;
-    font-size: 22px;
+.ride-card h2{
+    font-size:20px;
+    margin-top:0;
 }
 
-.ride-card p {
-    margin: 8px 0;
+.ride-info{
+    margin-top:10px;
 }
 
-.ride-card button {
-    margin-top: 10px;
-    padding: 8px 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.ride-info p{
+    margin:6px 0;
 }
 
-.ride-card button:hover {
-    background-color: #0056b3;
+.details-btn{
+    margin-top:12px;
+    padding:8px 12px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
 }
 
-.faded-ride {
-    opacity: 0.4;
+.details-btn:hover{
+    background:#0056b3;
+}
+
+.faded-ride{
+    opacity:0.35;
+}
+.view-toggle .filter-button{
+    margin-left:auto;
+    padding:10px 18px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.view-toggle .filter-button:hover{
+    background:#0056b3;
 }

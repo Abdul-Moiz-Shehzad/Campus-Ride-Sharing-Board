@@ -44,11 +44,12 @@ function RequestRide() {
             userId: currentUser.id,
             name: currentUser.username,
             phone: currentUser.phone,
-            pickup: pickup,
-            destination: destination,
-            departureTime: departureTime,
-            vehicleType: vehicleType,
-            notes: notes
+            pickup,
+            destination,
+            departureTime,
+            vehicleType,
+            notes,
+            status: "open"
         };
 
         dispatch(requestRide(newRequest));
@@ -65,12 +66,49 @@ function RequestRide() {
     }
 
     return (
-        <div className="request-ride-container">
-            <h1>Request a Ride</h1>
+        <div className="requestride-page">
 
-            <div className="request-ride-box">
-                <form onSubmit={handleSubmit}>
-                    <label>Pickup</label>
+            <div className="requestride-topbar">
+                <div>
+                    <h1>Request a Ride</h1>
+                    <p className="requestride-subtitle">
+                        Let drivers know where you need to go
+                    </p>
+                </div>
+
+                <button onClick={() => navigate("/dashboard")}>
+                    Back to Dashboard
+                </button>
+            </div>
+
+
+            <div className="requestride-card">
+
+                <div className="requester-panel">
+
+                    <div className="requester-avatar">
+                        {currentUser?.username?.charAt(0).toUpperCase()}
+                    </div>
+
+                    <h3>{currentUser?.username}</h3>
+
+                    <p className="requester-role">
+                        Requesting Passenger
+                    </p>
+
+                    <a
+                        className="requester-phone"
+                        href={`tel:${currentUser?.phone}`}
+                    >
+                        {currentUser?.phone}
+                    </a>
+
+                </div>
+
+
+                <form className="requestride-form" onSubmit={handleSubmit}>
+
+                    <label>Pickup Location</label>
                     <input
                         type="text"
                         value={pickup}
@@ -107,8 +145,12 @@ function RequestRide() {
                         onChange={(e) => setNotes(e.target.value)}
                     />
 
-                    <button type="submit">Submit Request</button>
+                    <button type="submit">
+                        Submit Request
+                    </button>
+
                 </form>
+
             </div>
         </div>
     );

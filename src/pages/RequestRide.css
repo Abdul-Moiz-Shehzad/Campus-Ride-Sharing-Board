@@ -1,47 +1,120 @@
-.request-ride-container {
-    padding: 30px;
+.requestride-page{
+    padding:30px;
+    background:#f7f9fc;
+    min-height:100vh;
 }
 
-.request-ride-box {
-    width: 400px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 25px;
+.requestride-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
 }
 
-.request-ride-box form {
-    display: flex;
-    flex-direction: column;
+.requestride-topbar h1{
+    margin:0;
 }
 
-.request-ride-box label {
-    margin-top: 10px;
-    margin-bottom: 5px;
+.requestride-subtitle{
+    margin-top:5px;
+    color:#666;
+    font-size:14px;
 }
 
-.request-ride-box input,
-.request-ride-box select,
-.request-ride-box textarea {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.requestride-topbar button{
+    padding:10px 16px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
 }
 
-.request-ride-box textarea {
-    min-height: 80px;
-    resize: vertical;
+.requestride-topbar button:hover{
+    background:#0056b3;
 }
 
-.request-ride-box button {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.requestride-card{
+    background:white;
+    border:1px solid #e3e7ee;
+    border-radius:12px;
+    padding:25px;
+    display:flex;
+    gap:30px;
+    max-width:750px;
 }
 
-.request-ride-box button:hover {
-    background-color: #0056b3;
+.requester-panel{
+    width:220px;
+    text-align:center;
+    border-right:1px solid #f0f0f0;
+    padding-right:20px;
+}
+
+.requester-avatar{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#dbeafe;
+    color:#007bff;
+    font-size:34px;
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 12px auto;
+}
+
+.requester-role{
+    color:#777;
+    font-size:14px;
+}
+
+.requester-phone{
+    display:block;
+    margin-top:10px;
+    color:#007bff;
+    text-decoration:none;
+}
+
+.requester-phone:hover{
+    text-decoration:underline;
+}
+
+.requestride-form{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+.requestride-form label{
+    margin-top:12px;
+    margin-bottom:5px;
+}
+
+.requestride-form input,
+.requestride-form select,
+.requestride-form textarea{
+    padding:8px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+.requestride-form textarea{
+    min-height:80px;
+    resize:vertical;
+}
+
+.requestride-form button{
+    margin-top:20px;
+    padding:10px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.requestride-form button:hover{
+    background:#0056b3;
 }
