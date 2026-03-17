@@ -22,8 +22,13 @@ function Profile() {
             navigate("/login");
             return;
         }
-    }, [currentUser, navigate]);
 
+        setUsername(currentUser.username || "");
+        setPhone(currentUser.phone || "");
+        setPassword(currentUser.password || "");
+        setConfirmPassword(currentUser.password || "");
+    }, [currentUser, navigate]);
+    
     function handleSubmit(e) {
         e.preventDefault();
 
