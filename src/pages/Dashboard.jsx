@@ -56,10 +56,7 @@ function Dashboard() {
             <div className="dashboard-hero-banner">
                 <div className="dashboard-hero-text">
                     <h2>Welcome back, {currentUser ? currentUser.username : "Guest"}!</h2>
-                    <p>
-                        Manage your rides, track requests, and keep up with your bookings
-                        from one place.
-                    </p>
+                    <p>Manage your rides, track requests, and keep up with your bookingsfrom one place.</p>
                 </div>
                 <div className="dashboard-hero-badge">
                     <span>Active User</span>

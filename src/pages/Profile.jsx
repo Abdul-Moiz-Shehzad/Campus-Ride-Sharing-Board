@@ -22,11 +22,6 @@ function Profile() {
             navigate("/login");
             return;
         }
-
-        setUsername(currentUser.username || "");
-        setPhone(currentUser.phone || "");
-        setPassword(currentUser.password || "");
-        setConfirmPassword(currentUser.password || "");
     }, [currentUser, navigate]);
 
     function handleSubmit(e) {
@@ -50,7 +45,6 @@ function Profile() {
         };
 
         dispatch(updateProfile(updatedUser));
-
         dispatch(updateUserInfoInPosts({
             userId: currentUser.id,
             username,
@@ -58,82 +52,47 @@ function Profile() {
         }));
 
         alert("Profile updated successfully");
-
         navigate("/dashboard");
     }
 
     return (
         <div className="profile-page">
-
             <div className="profile-topbar">
                 <div>
                     <h1>My Profile</h1>
-                    <p className="profile-subtitle">
-                        Update your personal information
-                    </p>
+                    <p className="profile-subtitle">Update your personal information</p>
                 </div>
 
-                <button onClick={() => navigate("/dashboard")}>
-                    Back to Dashboard
-                </button>
+                <button onClick={() => navigate("/dashboard")}>Back to Dashboard</button>
             </div>
 
 
             <div className="profile-card">
-
                 <div className="profile-avatar-section">
                     <div className="profile-avatar">
                         {username ? username.charAt(0).toUpperCase() : "U"}
                     </div>
-
                     <h3>{username}</h3>
-
-                    <p className="profile-phone">
-                        <a href={`tel:${phone}`}>
-                            {phone}
-                        </a>
-                    </p>
+                    <p className="profile-phone"><a href={`tel:${phone}`}>{phone}</a></p>
                 </div>
 
 
                 <form className="profile-form" onSubmit={handleSubmit}>
-
                     <label>Username</label>
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
 
                     <label>Phone Number</label>
-                    <input
-                        type="text"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                    />
+                    <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
                     <label>Password</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
                     <label>Confirm Password</label>
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
+                    <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
 
-                    <button type="submit">
-                        Save Changes
-                    </button>
-
+                    <button type="submit">Save Changes</button>
                 </form>
-
             </div>
-
         </div>
     );
 }

@@ -57,31 +57,18 @@ function RideDetails() {
         );
     }
 
-    const alreadyBookedRide = bookings.find(
-        booking =>
-            booking.type === "ride" &&
-            booking.rideId === item.id &&
-            booking.userId === currentUser?.id
-    );
-
-    const alreadyBookedRequest = bookings.find(
-        booking =>
-            booking.type === "request" &&
-            booking.requestId === item.id &&
-            booking.userId === currentUser?.id
-    );
+    const alreadyBookedRide = bookings.find(booking => booking.type === "ride" && booking.rideId === item.id && booking.userId === currentUser?.id);
+    const alreadyBookedRequest = bookings.find(booking => booking.type === "request" && booking.requestId === item.id && booking.userId === currentUser?.id);
 
     function handleBookRide() {
         if (item.createdBy === currentUser.id) {
             alert("You cannot book your own ride");
             return;
         }
-
         if (item.availableSeats <= 0) {
             alert("No seats available");
             return;
         }
-
         if (alreadyBookedRide) {
             alert("You have already booked this ride");
             return;
@@ -101,12 +88,10 @@ function RideDetails() {
             alert("You cannot respond to your own request");
             return;
         }
-
         if (item.status === "fulfilled") {
             alert("This request has already been fulfilled");
             return;
         }
-
         if (alreadyBookedRequest) {
             alert("You have already responded to this request");
             return;
@@ -126,37 +111,24 @@ function RideDetails() {
             <div className="details-topbar">
                 <div>
                     <h1>{isRequestPage ? "Ride Request Details" : "Ride Details"}</h1>
-                    <p className="details-subtitle">
-                        {isRequestPage ? "Review request information before responding" : "Review ride information before booking"}
-                    </p>
+                    <p className="details-subtitle">{isRequestPage ? "Review request information before responding" : "Review ride information before booking"}</p>
                 </div>
-
                 <button onClick={() => safeNavigate("/rides")}>Back</button>
             </div>
 
             <div className="ride-details-card">
                 <div className="details-main">
+
                     <div className="profile-panel">
                         <div className="profile-avatar">
-                            {isRequestPage
-                                ? (item.name ? item.name.charAt(0).toUpperCase() : "U")
-                                : (item.driverName ? item.driverName.charAt(0).toUpperCase() : "U")}
+                            {isRequestPage ? (item.name ? item.name.charAt(0).toUpperCase() : "U") : (item.driverName ? item.driverName.charAt(0).toUpperCase() : "U")}
                         </div>
 
-                        <h3>
-                            {isRequestPage ? item.name : item.driverName}
-                        </h3>
+                        <h3>{isRequestPage ? item.name : item.driverName}</h3>
 
-                        <p className="profile-role">
-                            {isRequestPage ? "Requester" : "Driver"}
-                        </p>
+                        <p className="profile-role">{isRequestPage ? "Requester" : "Driver"}</p>
 
-                        <a
-                            className="phone-link"
-                            href={`tel:${isRequestPage ? item.phone : item.contactInfo}`}
-                        >
-                            {isRequestPage ? item.phone : item.contactInfo}
-                        </a>
+                        <a className="phone-link" href={`tel:${isRequestPage ? item.phone : item.contactInfo}`} >{isRequestPage ? item.phone : item.contactInfo}</a>
                     </div>
 
                     <div className="details-content">
@@ -178,9 +150,7 @@ function RideDetails() {
                             {isRequestPage ? (
                                 <div className="detail-item">
                                     <span className="detail-label">Status</span>
-                                    <span className={`status-badge ${(item.status || "open") === "fulfilled" ? "fulfilled" : "open"}`}>
-                                        {item.status || "open"}
-                                    </span>
+                                    <span className={`status-badge ${(item.status || "open") === "fulfilled" ? "fulfilled" : "open"}`}>{item.status || "open"}</span>
                                 </div>
                             ) : (
                                 <div className="detail-item">
@@ -201,25 +171,11 @@ function RideDetails() {
                     <button onClick={() => safeNavigate("/rides")}>Back</button>
 
                     {isRequestPage ? (
-                        <button
-                            onClick={handleBookRequest}
-                            disabled={
-                                item.userId === currentUser?.id ||
-                                item.status === "fulfilled" ||
-                                alreadyBookedRequest
-                            }
-                        >
+                        <button onClick={handleBookRequest} disabled={item.userId === currentUser?.id || item.status === "fulfilled" || alreadyBookedRequest} >
                             {item.status === "fulfilled" ? "Request Fulfilled" : "Respond to Request"}
                         </button>
                     ) : (
-                        <button
-                            onClick={handleBookRide}
-                            disabled={
-                                item.createdBy === currentUser?.id ||
-                                item.availableSeats <= 0 ||
-                                alreadyBookedRide
-                            }
-                        >
+                        <button onClick={handleBookRide} disabled={ item.createdBy === currentUser?.id || item.availableSeats <= 0 || alreadyBookedRide } >
                             {item.availableSeats <= 0 ? "Ride Full" : "Book Ride"}
                         </button>
                     )}

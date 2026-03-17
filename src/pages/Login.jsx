@@ -16,9 +16,7 @@ function Login() {
     function handleSubmit(e) {
         e.preventDefault();
 
-        const foundUser = users.find(
-            (user) => user.username === username && user.password === password
-        );
+        const foundUser = users.find((user) => user.username === username && user.password === password);
 
         if (foundUser) {
             dispatch(loginUser(foundUser));
@@ -37,33 +35,19 @@ function Login() {
             <div className="login-right-section">
                 <div className="login-content">
                     <h1>Welcome Back</h1>
-                    <p className="login-subtitle">
-                        Login to manage your rides, requests, and bookings
-                    </p>
+                    <p className="login-subtitle">Login to manage your rides, requests, and bookings</p>
 
                     <div className="login-form-box">
                         <form onSubmit={handleSubmit}>
                             <label htmlFor="username">Username</label>
-                            <input
-                                type="text"
-                                id="username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
+                            <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
 
                             <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-
+                            <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            
                             <button type="submit">Login</button>
 
-                            <p className="login-register-text">
-                                Don't have an account? <Link to="/register">Register</Link>
-                            </p>
+                            <p className="login-register-text">Don't have an account? <Link to="/register">Register</Link></p>
                         </form>
                     </div>
                 </div>

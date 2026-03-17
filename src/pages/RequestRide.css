@@ -3,24 +3,20 @@
     background:#f7f9fc;
     min-height:100vh;
 }
-
 .requestride-topbar{
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-bottom:20px;
 }
-
 .requestride-topbar h1{
     margin:0;
 }
-
 .requestride-subtitle{
     margin-top:5px;
     color:#666;
     font-size:14px;
 }
-
 .requestride-topbar button{
     padding:10px 16px;
     background:#007bff;
@@ -29,11 +25,9 @@
     border-radius:6px;
     cursor:pointer;
 }
-
 .requestride-topbar button:hover{
     background:#0056b3;
 }
-
 .requestride-card{
     background:white;
     border:1px solid #e3e7ee;
@@ -43,14 +37,12 @@
     gap:30px;
     max-width:750px;
 }
-
 .requester-panel{
     width:220px;
     text-align:center;
     border-right:1px solid #f0f0f0;
     padding-right:20px;
 }
-
 .requester-avatar{
     width:90px;
     height:90px;
@@ -64,47 +56,37 @@
     justify-content:center;
     margin:0 auto 12px auto;
 }
-
 .requester-role{
     color:#777;
     font-size:14px;
 }
-
 .requester-phone{
     display:block;
     margin-top:10px;
     color:#007bff;
     text-decoration:none;
 }
-
 .requester-phone:hover{
     text-decoration:underline;
 }
-
 .requestride-form{
     flex:1;
     display:flex;
     flex-direction:column;
 }
-
 .requestride-form label{
     margin-top:12px;
     margin-bottom:5px;
 }
-
-.requestride-form input,
-.requestride-form select,
-.requestride-form textarea{
+.requestride-form input, .requestride-form select, .requestride-form textarea{
     padding:8px;
     border:1px solid #ccc;
     border-radius:6px;
 }
-
 .requestride-form textarea{
     min-height:80px;
     resize:vertical;
 }
-
 .requestride-form button{
     margin-top:20px;
     padding:10px;
@@ -114,7 +96,6 @@
     border-radius:6px;
     cursor:pointer;
 }
-
 .requestride-form button:hover{
     background:#0056b3;
 }

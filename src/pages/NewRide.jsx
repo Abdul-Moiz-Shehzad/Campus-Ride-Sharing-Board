@@ -27,13 +27,6 @@ function NewRide() {
         }
     }, [currentUser, isLoggingOut, navigate]);
 
-    function logout() {
-        setIsLoggingOut(true);
-        dispatch(logoutUser());
-        alert("Logged out successfully");
-        navigate("/login");
-    }
-
     function handleSubmit(e) {
         e.preventDefault();
 
@@ -75,14 +68,9 @@ function NewRide() {
             <div className="newride-topbar">
                 <div>
                     <h1>Post a New Ride</h1>
-                    <p className="newride-subtitle">
-                        Share your ride with other students
-                    </p>
+                    <p className="newride-subtitle">Share your ride with other students</p>
                 </div>
-
-                <button onClick={() => navigate("/dashboard")}>
-                    Back to Dashboard
-                </button>
+                <button onClick={() => navigate("/dashboard")}>Back to Dashboard</button>
             </div>
 
 
@@ -97,68 +85,35 @@ function NewRide() {
 
                     <p className="driver-role">Driver</p>
 
-                    <a
-                        className="driver-phone"
-                        href={`tel:${currentUser?.phone}`}
-                    >
-                        {currentUser?.phone}
-                    </a>
+                    <a className="driver-phone" href={`tel:${currentUser?.phone}`}>{currentUser?.phone}</a>
                 </div>
-
 
                 <form className="newride-form" onSubmit={handleSubmit}>
 
                     <label>Pickup Location</label>
-                    <input
-                        type="text"
-                        value={pickup}
-                        onChange={(e) => setPickup(e.target.value)}
-                    />
+                    <input type="text" value={pickup} onChange={(e) => setPickup(e.target.value)} />
 
                     <label>Destination</label>
-                    <input
-                        type="text"
-                        value={destination}
-                        onChange={(e) => setDestination(e.target.value)}
-                    />
+                    <input type="text" value={destination} onChange={(e) => setDestination(e.target.value)} />
 
                     <label>Departure Time</label>
-                    <input
-                        type="time"
-                        value={departureTime}
-                        onChange={(e) => setDepartureTime(e.target.value)}
-                    />
+                    <input type="time" value={departureTime} onChange={(e) => setDepartureTime(e.target.value)} />
 
                     <label>Available Seats</label>
-                    <input
-                        type="number"
-                        min="1"
-                        value={availableSeats}
-                        onChange={(e) => setAvailableSeats(e.target.value)}
-                    />
+                    <input type="number" min="1" value={availableSeats} onChange={(e) => setAvailableSeats(e.target.value)} />
 
                     <label>Vehicle Type</label>
-                    <select
-                        value={vehicleType}
-                        onChange={(e) => setVehicleType(e.target.value)}
-                    >
+                    <select value={vehicleType} onChange={(e) => setVehicleType(e.target.value)}>
                         <option value="">Select Vehicle</option>
                         <option value="Car">Car</option>
                         <option value="Bike">Bike</option>
                     </select>
 
                     <label>Notes</label>
-                    <textarea
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
-                    />
+                    <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
 
-                    <button type="submit">
-                        Post Ride
-                    </button>
-
+                    <button type="submit">Post Ride</button>
                 </form>
-
             </div>
         </div>
     );

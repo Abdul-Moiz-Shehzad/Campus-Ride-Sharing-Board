@@ -3,24 +3,20 @@
     background:#f7f9fc;
     min-height:100vh;
 }
-
 .newride-topbar{
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-bottom:20px;
 }
-
 .newride-topbar h1{
     margin:0;
 }
-
 .newride-subtitle{
     margin-top:5px;
     font-size:14px;
     color:#666;
 }
-
 .newride-topbar button{
     padding:10px 16px;
     background:#007bff;
@@ -29,11 +25,9 @@
     border-radius:6px;
     cursor:pointer;
 }
-
 .newride-topbar button:hover{
     background:#0056b3;
 }
-
 .newride-card{
     background:white;
     border:1px solid #e3e7ee;
@@ -43,14 +37,12 @@
     gap:30px;
     max-width:750px;
 }
-
 .driver-panel{
     width:220px;
     text-align:center;
     border-right:1px solid #f0f0f0;
     padding-right:20px;
 }
-
 .driver-avatar{
     width:90px;
     height:90px;
@@ -64,47 +56,37 @@
     justify-content:center;
     margin:0 auto 12px auto;
 }
-
 .driver-role{
     color:#777;
     font-size:14px;
 }
-
 .driver-phone{
     display:block;
     margin-top:10px;
     text-decoration:none;
     color:#007bff;
 }
-
 .driver-phone:hover{
     text-decoration:underline;
 }
-
 .newride-form{
     flex:1;
     display:flex;
     flex-direction:column;
 }
-
 .newride-form label{
     margin-top:12px;
     margin-bottom:5px;
 }
-
-.newride-form input,
-.newride-form select,
-.newride-form textarea{
+.newride-form input, .newride-form select, .newride-form textarea{
     padding:8px;
     border:1px solid #ccc;
     border-radius:6px;
 }
-
 .newride-form textarea{
     min-height:80px;
     resize:vertical;
 }
-
 .newride-form button{
     margin-top:20px;
     padding:10px;
@@ -114,7 +96,6 @@
     border-radius:6px;
     cursor:pointer;
 }
-
 .newride-form button:hover{
     background:#0056b3;
 }

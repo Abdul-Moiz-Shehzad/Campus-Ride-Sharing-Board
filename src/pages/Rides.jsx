@@ -109,7 +109,6 @@ function Rides() {
         if (isNaN(hours) || isNaN(minutes)) {
             return null;
         }
-
         if (isAM || isPM) {
             if (hours === 12 && isAM) {
                 hours = 0;
@@ -117,7 +116,6 @@ function Rides() {
                 hours = hours + 12;
             }
         }
-
         return hours * 60 + minutes;
     }
 
@@ -133,36 +131,18 @@ function Rides() {
     }
 
     function isRideMatch(ride) {
-        const pickupMatch =
-            pickupFilter === "" ||
-            ride.pickup.toLowerCase().includes(pickupFilter.toLowerCase());
-
-        const destinationMatch =
-            destinationFilter === "" ||
-            ride.destination.toLowerCase().includes(destinationFilter.toLowerCase());
-
-        const vehicleMatch =
-            vehicleFilter === "" ||
-            ride.vehicleType.toLowerCase().includes(vehicleFilter.toLowerCase());
-
+        const pickupMatch = pickupFilter === "" || ride.pickup.toLowerCase().includes(pickupFilter.toLowerCase());
+        const destinationMatch = destinationFilter === "" || ride.destination.toLowerCase().includes(destinationFilter.toLowerCase());
+        const vehicleMatch = vehicleFilter === "" || ride.vehicleType.toLowerCase().includes(vehicleFilter.toLowerCase());
         const timeMatch = timeWithinOneHour(ride.departureTime, timeFilter);
 
         return pickupMatch && destinationMatch && vehicleMatch && timeMatch;
     }
 
     function isRequestMatch(request) {
-        const pickupMatch =
-            pickupFilter === "" ||
-            request.pickup.toLowerCase().includes(pickupFilter.toLowerCase());
-
-        const destinationMatch =
-            destinationFilter === "" ||
-            request.destination.toLowerCase().includes(destinationFilter.toLowerCase());
-
-        const vehicleMatch =
-            vehicleFilter === "" ||
-            request.vehicleType.toLowerCase().includes(vehicleFilter.toLowerCase());
-
+        const pickupMatch = pickupFilter === "" || request.pickup.toLowerCase().includes(pickupFilter.toLowerCase());
+        const destinationMatch = destinationFilter === "" || request.destination.toLowerCase().includes(destinationFilter.toLowerCase());
+        const vehicleMatch =vehicleFilter === "" ||request.vehicleType.toLowerCase().includes(vehicleFilter.toLowerCase());
         const timeMatch = timeWithinOneHour(request.departureTime, timeFilter);
 
         return pickupMatch && destinationMatch && vehicleMatch && timeMatch;
@@ -178,7 +158,6 @@ function Rides() {
 
     return (
         <div className="rides-page">
-
             <div className="rides-topbar">
                 <div>
                     <h1>Campus Ride Board</h1>
@@ -186,75 +165,35 @@ function Rides() {
                 </div>
 
                 <div className="topbar-actions">
-                    <button onClick={() => safeNavigate("/dashboard")}>
-                        Back to Dashboard
-                    </button>
+                    <button onClick={() => safeNavigate("/dashboard")}>Back to Dashboard</button>
                 </div>
             </div>
 
-
             <div className="rides-hero">
-                <p>
-                    Browse available rides or check ride requests from other students.
-                </p>
+                <p>Browse available rides or check ride requests from other students.</p>
             </div>
 
-
             <div className="view-toggle">
-                <button
-                    className={viewMode === "rides" ? "active-toggle" : ""}
-                    onClick={() => handleViewChange("rides")}
-                >
-                    Available Rides
-                </button>
-
-                <button
-                    className={viewMode === "requests" ? "active-toggle" : ""}
-                    onClick={() => handleViewChange("requests")}
-                >
-                    Ride Requests
-                </button>
-                <button className = "filter-button" onClick={() => setShowFilters(!showFilters)}>
-                        {showFilters ? "Hide Filters" : "Filters"}
-                </button>
+                <button className={viewMode === "rides" ? "active-toggle" : ""} onClick={() => handleViewChange("rides")} >Available Rides</button>
+                <button className={viewMode === "requests" ? "active-toggle" : ""} onClick={() => handleViewChange("requests")} >Ride Requests</button>
+                <button className = "filter-button" onClick={() => setShowFilters(!showFilters)}>{showFilters ? "Hide Filters" : "Filters"}</button>
             </div>
 
 
             {showFilters && (
                 <div className="filter-box">
-
-                    <input
-                        type="text"
-                        placeholder="Pickup"
-                        value={pickup}
-                        onChange={(e) => setPickup(e.target.value)}
-                    />
-
-                    <input
-                        type="text"
-                        placeholder="Destination"
-                        value={destination}
-                        onChange={(e) => setDestination(e.target.value)}
-                    />
-
-                    <select
-                        value={vehicle}
-                        onChange={(e) => setVehicle(e.target.value)}
-                    >
+                    <input type="text" placeholder="Pickup" value={pickup} onChange={(e) => setPickup(e.target.value)} />
+                    <input type="text" placeholder="Destination" value={destination} onChange={(e) => setDestination(e.target.value)} />
+                    <select value={vehicle} onChange={(e) => setVehicle(e.target.value)} >
                         <option value="">Vehicle</option>
                         <option value="Car">Car</option>
                         <option value="Bike">Bike</option>
                     </select>
 
-                    <input
-                        type="time"
-                        value={time}
-                        onChange={(e) => setTime(e.target.value)}
-                    />
+                    <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
 
                     <button onClick={handleFilter}>Apply</button>
                     <button className="clear-btn" onClick={clearFilters}>Clear</button>
-
                 </div>
             )}
 
@@ -267,17 +206,10 @@ function Rides() {
                 ) : (
 
                     <div className="rides-list">
-
                         {sortedRides.map((ride) => {
-
                             const matched = isRideMatch(ride);
-
                             return (
-                                <div
-                                    className={`ride-card ${matched ? "matched-ride" : "faded-ride"}`}
-                                    key={ride.id}
-                                >
-
+                                <div className={`ride-card ${matched ? "matched-ride" : "faded-ride"}`} key={ride.id} >
                                     <h2>{ride.pickup} to {ride.destination}</h2>
 
                                     <div className="ride-info">
@@ -287,38 +219,22 @@ function Rides() {
                                         <p><strong>Vehicle</strong> {ride.vehicleType}</p>
                                     </div>
 
-                                    <button
-                                        className="details-btn"
-                                        onClick={() => safeNavigate(`/rides/${ride.id}`)}
-                                    >
-                                        View Details
-                                    </button>
-
+                                    <button className="details-btn" onClick={() => safeNavigate(`/rides/${ride.id}`)} >View Details</button>
                                 </div>
                             );
                         })}
-
                     </div>
                 )
-
             ) : (
 
                 requests.length === 0 ? (
                     <p>No ride requests available right now.</p>
                 ) : (
-
                     <div className="rides-list">
-
                         {sortedRequests.map((request) => {
-
                             const matched = isRequestMatch(request);
-
                             return (
-                                <div
-                                    className={`ride-card ${matched ? "matched-ride" : "faded-ride"}`}
-                                    key={request.id}
-                                >
-
+                                <div className={`ride-card ${matched ? "matched-ride" : "faded-ride"}`} key={request.id} >
                                     <h2>{request.pickup} to {request.destination}</h2>
 
                                     <div className="ride-info">
@@ -327,23 +243,13 @@ function Rides() {
                                         <p><strong>Vehicle</strong> {request.vehicleType}</p>
                                     </div>
 
-                                    <button
-                                        className="details-btn"
-                                        onClick={() => safeNavigate(`/requests/${request.id}`)}
-                                    >
-                                        View Details
-                                    </button>
-
+                                    <button className="details-btn" onClick={() => safeNavigate(`/requests/${request.id}`)} >View Details</button>
                                 </div>
                             );
                         })}
-
                     </div>
-
                 )
-
             )}
-
         </div>
         );
 }

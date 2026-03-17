@@ -23,9 +23,7 @@ function Register() {
             return;
         }
 
-        const usernameExists = users.find(
-            user => user.username.toLowerCase() === username.toLowerCase()
-        );
+        const usernameExists = users.find(user => user.username.toLowerCase() === username.toLowerCase());
 
         if (usernameExists) {
             alert("This username is already taken");
@@ -64,49 +62,24 @@ function Register() {
             <div className="register-right-section">
                 <div className="register-content">
                     <h1>Create Account</h1>
-                    <p className="register-subtitle">
-                        Join CampusRide and start sharing or requesting rides
-                    </p>
+                    <p className="register-subtitle">Join CampusRide and start sharing or requesting rides</p>
 
                     <div className="register-form-box">
                         <form onSubmit={handleSubmit}>
                             <label htmlFor="username">Username</label>
-                            <input
-                                type="text"
-                                id="username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
+                            <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
 
                             <label htmlFor="phone">Phone Number</label>
-                            <input
-                                type="text"
-                                id="phone"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
-                            />
+                            <input type="text" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
                             <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
+                            <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
                             <label htmlFor="confirmPassword">Confirm Password</label>
-                            <input
-                                type="password"
-                                id="confirmPassword"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                            />
+                            <input type="password" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
 
                             <button type="submit">Register</button>
-
-                            <p className="register-login-text">
-                                Already have an account? <Link to="/login">Login</Link>
-                            </p>
+                            <p className="register-login-text">Already have an account? <Link to="/login">Login</Link></p>
                         </form>
                     </div>
                 </div>

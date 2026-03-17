@@ -71,86 +71,51 @@ function RequestRide() {
             <div className="requestride-topbar">
                 <div>
                     <h1>Request a Ride</h1>
-                    <p className="requestride-subtitle">
-                        Let drivers know where you need to go
-                    </p>
+                    <p className="requestride-subtitle">Let drivers know where you need to go</p>
                 </div>
-
-                <button onClick={() => navigate("/dashboard")}>
-                    Back to Dashboard
-                </button>
+                <button onClick={() => navigate("/dashboard")}>Back to Dashboard</button>
             </div>
 
 
             <div className="requestride-card">
 
                 <div className="requester-panel">
-
                     <div className="requester-avatar">
                         {currentUser?.username?.charAt(0).toUpperCase()}
                     </div>
 
                     <h3>{currentUser?.username}</h3>
 
-                    <p className="requester-role">
-                        Requesting Passenger
-                    </p>
+                    <p className="requester-role">Requesting Passenger</p>
 
-                    <a
-                        className="requester-phone"
-                        href={`tel:${currentUser?.phone}`}
-                    >
-                        {currentUser?.phone}
-                    </a>
+                    <a className="requester-phone" href={`tel:${currentUser?.phone}`}>{currentUser?.phone}</a>
 
                 </div>
-
 
                 <form className="requestride-form" onSubmit={handleSubmit}>
 
                     <label>Pickup Location</label>
-                    <input
-                        type="text"
-                        value={pickup}
-                        onChange={(e) => setPickup(e.target.value)}
-                    />
+                    <input type="text" value={pickup} onChange={(e) => setPickup(e.target.value)} />
 
                     <label>Destination</label>
-                    <input
-                        type="text"
-                        value={destination}
-                        onChange={(e) => setDestination(e.target.value)}
-                    />
+                    <input type="text" value={destination} onChange={(e) => setDestination(e.target.value)} />
 
                     <label>Preferred Departure Time</label>
-                    <input
-                        type="time"
-                        value={departureTime}
-                        onChange={(e) => setDepartureTime(e.target.value)}
-                    />
+                    <input type="time" value={departureTime} onChange={(e) => setDepartureTime(e.target.value)} />
 
                     <label>Vehicle Type</label>
-                    <select
-                        value={vehicleType}
-                        onChange={(e) => setVehicleType(e.target.value)}
-                    >
+                    <select value={vehicleType} onChange={(e) => setVehicleType(e.target.value)} >
                         <option value="">Select Vehicle</option>
                         <option value="Car">Car</option>
                         <option value="Bike">Bike</option>
                     </select>
 
                     <label>Notes</label>
-                    <textarea
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
-                    />
+                    <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
 
-                    <button type="submit">
-                        Submit Request
-                    </button>
+                    <button type="submit">Submit Request</button>
 
                 </form>
-
             </div>
         </div>
     );
