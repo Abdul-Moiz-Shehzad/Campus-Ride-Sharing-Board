@@ -43,7 +43,7 @@ function Landing() {
                 <div className="features-grid">
                     <div className="feature-card">
                         <h3>Post Rides</h3>
-                        <p>Drivers can post available rides with departuretime, vehicle type, and seats available.</p>
+                        <p>Drivers can post available rides with departure time, vehicle type, and seats available.</p>
                     </div>
 
                     <div className="feature-card">
@@ -58,7 +58,7 @@ function Landing() {
 
                     <div className="feature-card">
                         <h3>Connect with Students</h3>
-                        <p>See driver or passenger details and contact themdirectly to coordinate your ride.</p>
+                        <p>See driver or passenger details and contact them directly to coordinate your ride.</p>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@ function Landing() {
             </div>
 
             <div className="landing-footer">
-                <p>CampusRide • Student Ride Sharing Platform</p>
+                <p>© 2026 CampusRide • Student Ride Sharing Platform</p>
             </div>
 
         </div>
