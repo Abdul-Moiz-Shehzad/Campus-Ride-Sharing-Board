@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateProfile } from "../redux/userSlice";
 import { updateUserInfoInPosts } from "../redux/rideSlice";
+import { userAPI } from "../api";
 import "./Profile.css";
 
 function Profile() {
@@ -15,6 +16,7 @@ function Profile() {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!currentUser) {
@@ -29,35 +31,51 @@ function Profile() {
         setConfirmPassword(currentUser.password || "");
     }, [currentUser, navigate]);
     
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
+        setLoading(true);
 
         if (!username || !phone || !password || !confirmPassword) {
             alert("Please fill all fields");
+            setLoading(false);
             return;
         }
 
         if (password !== confirmPassword) {
             alert("Passwords do not match");
+            setLoading(false);
             return;
         }
 
-        const updatedUser = {
-            id: currentUser.id,
-            username,
-            phone,
-            password
-        };
+        try {
+            const response = await userAPI.updateProfile(username, phone, password, confirmPassword);
 
-        dispatch(updateProfile(updatedUser));
-        dispatch(updateUserInfoInPosts({
-            userId: currentUser.id,
-            username,
-            phone
-        }));
+            if (!response.user) {
+                alert(response.message || "Failed to update profile");
+                setLoading(false);
+                return;
+            }
 
-        alert("Profile updated successfully");
-        navigate("/dashboard");
+            const updatedUser = {
+                id: response.user.id,
+                username: response.user.username,
+                phone: response.user.phone
+            };
+
+            dispatch(updateProfile(updatedUser));
+            dispatch(updateUserInfoInPosts({
+                userId: response.user.id,
+                username: response.user.username,
+                phone: response.user.phone
+            }));
+
+            alert("Profile updated successfully");
+            navigate("/dashboard");
+        } catch (error) {
+            alert("Error updating profile: " + error.message);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -95,7 +113,7 @@ function Profile() {
                     <label>Confirm Password</label>
                     <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
 
-                    <button type="submit">Save Changes</button>
+                    <button type="submit" disabled={loading}>{loading ? "Saving..." : "Save Changes"}</button>
                 </form>
             </div>
         </div>

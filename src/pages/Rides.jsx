@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { setRides, setRequests } from "../redux/rideSlice";
+import { rideAPI, requestAPI } from "../api";
 import "./Rides.css";
 
 function Rides() {
@@ -8,11 +10,13 @@ function Rides() {
     const rides = useSelector(state => state.ride.rides);
     const requests = useSelector(state => state.ride.requests);
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [showFilters, setShowFilters] = useState(false);
     const [viewMode, setViewMode] = useState(searchParams.get("view") || "rides");
+    const [loading, setLoading] = useState(true);
 
     const pickupFilter = searchParams.get("pickup") || "";
     const destinationFilter = searchParams.get("destination") || "";
@@ -24,12 +28,54 @@ function Rides() {
     const [vehicle, setVehicle] = useState(vehicleFilter);
     const [time, setTime] = useState(timeFilter);
 
+    // Fetch rides and requests from backend on mount
     useEffect(() => {
-        if (!currentUser) {
-            alert("Please Login First");
-            navigate("/login");
-        }
-    }, [currentUser, navigate]);
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const [ridesResponse, requestsResponse] = await Promise.all([
+                    rideAPI.getAllRides(),
+                    requestAPI.getAllRequests()
+                ]);
+
+                // Map backend response to frontend format
+                const formattedRides = ridesResponse.map(ride => ({
+                    id: ride._id || ride.id,
+                    driverName: ride.driverName,
+                    createdBy: ride.createdBy?._id || ride.createdBy,
+                    pickup: ride.pickup,
+                    destination: ride.destination,
+                    departureTime: ride.departureTime,
+                    availableSeats: ride.availableSeats,
+                    vehicleType: ride.vehicleType,
+                    contactInfo: ride.contactInfo,
+                    notes: ride.notes
+                }));
+
+                const formattedRequests = requestsResponse.map(req => ({
+                    id: req._id || req.id,
+                    userId: req.userId?._id || req.userId,
+                    name: req.name,
+                    phone: req.phone,
+                    pickup: req.pickup,
+                    destination: req.destination,
+                    departureTime: req.departureTime,
+                    vehicleType: req.vehicleType,
+                    notes: req.notes,
+                    status: req.status
+                }));
+
+                dispatch(setRides(formattedRides));
+                dispatch(setRequests(formattedRequests));
+            } catch (error) {
+                console.error('Error fetching rides:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [dispatch]);
     
     function safeNavigate(path) {
         if (!currentUser) {
@@ -130,7 +176,15 @@ function Rides() {
         return Math.abs(itemMinutes - filterMinutes) <= 60;
     }
 
+    function isRideActive(ride) {
+        return ride.availableSeats > 0;
+    }
+
     function isRideMatch(ride) {
+        if (!isRideActive(ride)) {
+            return false;
+        }
+
         const pickupMatch = pickupFilter === "" || ride.pickup.toLowerCase().includes(pickupFilter.toLowerCase());
         const destinationMatch = destinationFilter === "" || ride.destination.toLowerCase().includes(destinationFilter.toLowerCase());
         const vehicleMatch = vehicleFilter === "" || ride.vehicleType.toLowerCase().includes(vehicleFilter.toLowerCase());
@@ -139,22 +193,34 @@ function Rides() {
         return pickupMatch && destinationMatch && vehicleMatch && timeMatch;
     }
 
+    function isRequestActive(request) {
+        return request.status !== "fulfilled" && request.status !== "cancelled";
+    }
+
     function isRequestMatch(request) {
+        if (!isRequestActive(request)) {
+            return false;
+        }
+
         const pickupMatch = pickupFilter === "" || request.pickup.toLowerCase().includes(pickupFilter.toLowerCase());
         const destinationMatch = destinationFilter === "" || request.destination.toLowerCase().includes(destinationFilter.toLowerCase());
-        const vehicleMatch =vehicleFilter === "" ||request.vehicleType.toLowerCase().includes(vehicleFilter.toLowerCase());
+        const vehicleMatch = vehicleFilter === "" || request.vehicleType.toLowerCase().includes(vehicleFilter.toLowerCase());
         const timeMatch = timeWithinOneHour(request.departureTime, timeFilter);
 
         return pickupMatch && destinationMatch && vehicleMatch && timeMatch;
     }
 
-    const matchingRides = rides.filter(isRideMatch);
-    const nonMatchingRides = rides.filter(ride => !isRideMatch(ride));
-    const sortedRides = [...matchingRides, ...nonMatchingRides];
+    const activeRides = rides.filter(isRideActive);
+    const inactiveRides = rides.filter((ride) => !isRideActive(ride));
+    const matchingRides = activeRides.filter(isRideMatch);
+    const nonMatchingRides = activeRides.filter((ride) => !isRideMatch(ride));
+    const sortedRides = [...matchingRides, ...nonMatchingRides, ...inactiveRides];
 
-    const matchingRequests = requests.filter(isRequestMatch);
-    const nonMatchingRequests = requests.filter(request => !isRequestMatch(request));
-    const sortedRequests = [...matchingRequests, ...nonMatchingRequests];
+    const activeRequests = requests.filter(isRequestActive);
+    const inactiveRequests = requests.filter((request) => !isRequestActive(request));
+    const matchingRequests = activeRequests.filter(isRequestMatch);
+    const nonMatchingRequests = activeRequests.filter((request) => !isRequestMatch(request));
+    const sortedRequests = [...matchingRequests, ...nonMatchingRequests, ...inactiveRequests];
 
     return (
         <div className="rides-page">
@@ -219,7 +285,7 @@ function Rides() {
                                         <p><strong>Vehicle</strong> {ride.vehicleType}</p>
                                     </div>
 
-                                    <button className="details-btn" onClick={() => safeNavigate(`/rides/${ride.id}`)} >View Details</button>
+                                    <button className="details-btn" onClick={() => navigate(`/rides/${ride.id}`)} >View Details</button>
                                 </div>
                             );
                         })}
@@ -243,7 +309,7 @@ function Rides() {
                                         <p><strong>Vehicle</strong> {request.vehicleType}</p>
                                     </div>
 
-                                    <button className="details-btn" onClick={() => safeNavigate(`/requests/${request.id}`)} >View Details</button>
+                                    <button className="details-btn" onClick={() => navigate(`/requests/${request.id}`)} >View Details</button>
                                 </div>
                             );
                         })}

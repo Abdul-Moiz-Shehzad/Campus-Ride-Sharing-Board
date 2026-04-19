@@ -1,32 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    rides: [
-        {
-            id: 1,
-            driverName: "Ali",
-            createdBy: 101,
-            pickup: "Valencia Town",
-            destination: "FAST",
-            departureTime: "08:30",
-            availableSeats: 3,
-            vehicleType: "Car",
-            contactInfo: "0300-1234567",
-            notes: "Leaving sharp at 8:30"
-        },
-        {
-            id: 2,
-            driverName: "Umer",
-            createdBy: 102,
-            pickup: "Johar Town",
-            destination: "Faisal Town",
-            departureTime: "09:00",
-            availableSeats: 1,
-            vehicleType: "Bike",
-            contactInfo: "0311-9876543",
-            notes: "Only small bags please"
-        }
-    ],
+    rides: [],
     bookings: [],
     requests: []
 };
@@ -35,6 +10,14 @@ const rideSlice = createSlice({
     name: "ride",
     initialState,
     reducers: {
+        setRides: (state, action) => {
+            state.rides = action.payload;
+        },
+
+        setRequests: (state, action) => {
+            state.requests = action.payload;
+        },
+
         addRide: (state, action) => {
             state.rides.push(action.payload);
         },
@@ -46,17 +29,17 @@ const rideSlice = createSlice({
         bookRide: (state, action) => {
             const { rideId, userId } = action.payload;
 
-            const ride = state.rides.find(r => r.id === rideId);
+            const ride = state.rides.find(r => r.id === rideId || r._id === rideId);
             if (!ride) return;
 
-            if (ride.createdBy === userId) return;
+            if (ride.createdBy === userId || ride.createdBy?._id === userId) return;
 
             if (ride.availableSeats <= 0) return;
 
             const alreadyBooked = state.bookings.find(
                 booking =>
                     booking.type === "ride" &&
-                    booking.rideId === rideId &&
+                    (booking.rideId === rideId || booking.rideId?._id === rideId) &&
                     booking.userId === userId
             );
 
@@ -67,7 +50,7 @@ const rideSlice = createSlice({
             state.bookings.push({
                 id: Date.now(),
                 type: "ride",
-                rideId: ride.id,
+                rideId: ride.id || ride._id,
                 userId: userId,
                 ownerId: ride.createdBy,
                 pickup: ride.pickup,
@@ -80,17 +63,17 @@ const rideSlice = createSlice({
         bookRequest: (state, action) => {
             const { requestId, userId } = action.payload;
 
-            const request = state.requests.find(r => r.id === requestId);
+            const request = state.requests.find(r => r.id === requestId || r._id === requestId);
             if (!request) return;
 
-            if (request.userId === userId) return;
+            if (request.userId === userId || request.userId?._id === userId) return;
 
             if (request.status === "fulfilled") return;
 
             const alreadyBooked = state.bookings.find(
                 booking =>
                     booking.type === "request" &&
-                    booking.requestId === requestId &&
+                    (booking.requestId === requestId || booking.requestId?._id === requestId) &&
                     booking.userId === userId
             );
 
@@ -102,7 +85,7 @@ const rideSlice = createSlice({
             state.bookings.push({
                 id: Date.now(),
                 type: "request",
-                requestId: request.id,
+                requestId: request.id || request._id,
                 userId: userId,
                 ownerId: request.userId,
                 pickup: request.pickup,
@@ -116,14 +99,14 @@ const rideSlice = createSlice({
             const { userId, username, phone } = action.payload;
 
             state.rides.forEach((ride) => {
-                if (ride.createdBy === userId) {
+                if (ride.createdBy === userId || ride.createdBy?._id === userId) {
                     ride.driverName = username;
                     ride.contactInfo = phone;
                 }
             });
 
             state.requests.forEach((request) => {
-                if (request.userId === userId) {
+                if (request.userId === userId || request.userId?._id === userId) {
                     request.name = username;
                     request.phone = phone;
                 }
@@ -133,6 +116,8 @@ const rideSlice = createSlice({
 });
 
 export const {
+    setRides,
+    setRequests,
     addRide,
     requestRide,
     bookRide,

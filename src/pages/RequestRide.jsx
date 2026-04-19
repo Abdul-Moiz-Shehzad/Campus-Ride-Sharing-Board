@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { requestRide } from "../redux/rideSlice";
+import { requestAPI } from "../api";
 import "./RequestRide.css";
 
 function RequestRide() {
@@ -14,6 +15,7 @@ function RequestRide() {
     const [departureTime, setDepartureTime] = useState("");
     const [vehicleType, setVehicleType] = useState("");
     const [notes, setNotes] = useState("");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!currentUser) {
@@ -31,38 +33,55 @@ function RequestRide() {
         navigate(path);
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
+        setLoading(true);
 
         if (!pickup || !destination || !departureTime || !vehicleType) {
             alert("Please fill all required fields");
+            setLoading(false);
             return;
         }
 
-        const newRequest = {
-            id: Date.now(),
-            userId: currentUser.id,
-            name: currentUser.username,
-            phone: currentUser.phone,
-            pickup,
-            destination,
-            departureTime,
-            vehicleType,
-            notes,
-            status: "open"
-        };
+        try {
+            const response = await requestAPI.createRequest(pickup, destination, departureTime, vehicleType, notes);
 
-        dispatch(requestRide(newRequest));
+            if (!response.request) {
+                alert(response.message || "Failed to submit request");
+                setLoading(false);
+                return;
+            }
 
-        alert("Ride request submitted");
+            // Update Redux with new request
+            const newRequest = {
+                id: response.request._id,
+                userId: response.request.userId,
+                name: response.request.name,
+                phone: response.request.phone,
+                pickup: response.request.pickup,
+                destination: response.request.destination,
+                departureTime: response.request.departureTime,
+                vehicleType: response.request.vehicleType,
+                notes: response.request.notes,
+                status: response.request.status
+            };
 
-        setPickup("");
-        setDestination("");
-        setDepartureTime("");
-        setVehicleType("");
-        setNotes("");
+            dispatch(requestRide(newRequest));
 
-        safeNavigate("/dashboard");
+            alert("Ride request submitted");
+
+            setPickup("");
+            setDestination("");
+            setDepartureTime("");
+            setVehicleType("");
+            setNotes("");
+
+            safeNavigate("/dashboard");
+        } catch (error) {
+            alert("Error submitting request: " + error.message);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -113,7 +132,7 @@ function RequestRide() {
                     <label>Notes</label>
                     <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
 
-                    <button type="submit">Submit Request</button>
+                    <button type="submit" disabled={loading}>{loading ? "Submitting..." : "Submit Request"}</button>
 
                 </form>
             </div>

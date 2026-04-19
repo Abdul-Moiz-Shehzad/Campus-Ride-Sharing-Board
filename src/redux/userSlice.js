@@ -1,8 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Load user from localStorage
+const loadUserFromStorage = () => {
+    try {
+        const user = localStorage.getItem('currentUser');
+        return user ? JSON.parse(user) : null;
+    } catch (error) {
+        console.error('Error loading user from localStorage:', error);
+        return null;
+    }
+};
+
 const initialState = {
     users: [],
-    currentUser: null,
+    currentUser: loadUserFromStorage(),
 };
 
 const userSlice = createSlice({
@@ -15,10 +26,14 @@ const userSlice = createSlice({
 
         loginUser: (state, action) => {
             state.currentUser = action.payload;
+            // Save to localStorage
+            localStorage.setItem('currentUser', JSON.stringify(action.payload));
         },
 
         logoutUser: (state) => {
             state.currentUser = null;
+            // Remove from localStorage
+            localStorage.removeItem('currentUser');
         },
 
         updateProfile: (state, action) => {
@@ -36,6 +51,8 @@ const userSlice = createSlice({
                 state.currentUser.username = username;
                 state.currentUser.phone = phone;
                 state.currentUser.password = password;
+                // Update localStorage
+                localStorage.setItem('currentUser', JSON.stringify(state.currentUser));
             }
         }
     }

@@ -26,6 +26,7 @@ function MainApp(){
                 <Route path="/newride" element={<NewRide />} />
                 <Route path="/requestride" element={<RequestRide />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="*" element={<Landing />} />
             </Routes>
         </div>
   );

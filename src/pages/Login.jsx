@@ -4,25 +4,40 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginUser } from '../redux/userSlice';
+import { userAPI, setToken } from '../api';
 
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const dispatch = useDispatch();
-    const users = useSelector((state) => state.user.users);
     const navigate = useNavigate();
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
+        setLoading(true);
 
-        const foundUser = users.find((user) => user.username === username && user.password === password);
+        try {
+            const response = await userAPI.login(username, password);
 
-        if (foundUser) {
-            dispatch(loginUser(foundUser));
+            if (!response.token) {
+                alert(response.message || "Invalid username or password");
+                setLoading(false);
+                return;
+            }
+
+            // Store token
+            setToken(response.token);
+
+            // Update Redux with user data
+            dispatch(loginUser(response.user));
+
             navigate("/dashboard");
-        } else {
-            alert("Invalid username or password");
+        } catch (error) {
+            alert("Error logging in: " + error.message);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -45,7 +60,7 @@ function Login() {
                             <label htmlFor="password">Password</label>
                             <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                             
-                            <button type="submit">Login</button>
+                            <button type="submit" disabled={loading}>{loading ? "Logging in..." : "Login"}</button>
 
                             <p className="login-register-text">Don't have an account? <Link to="/register">Register</Link></p>
                         </form>

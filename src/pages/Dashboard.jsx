@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 import { logoutUser } from "../redux/userSlice";
+import { removeToken } from "../api";
 
 function Dashboard() {
     const currentUser = useSelector(state => state.user.currentUser);
@@ -34,6 +35,7 @@ function Dashboard() {
 
     function logout() {
         setIsLoggingOut(true);
+        removeToken();
         dispatch(logoutUser());
         alert("Logged out successfully");
         navigate("/login");

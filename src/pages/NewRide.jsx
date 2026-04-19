@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addRide } from "../redux/rideSlice";
 import { logoutUser } from "../redux/userSlice";
+import { rideAPI } from "../api";
 import "./NewRide.css";
 
 function NewRide() {
@@ -12,6 +13,7 @@ function NewRide() {
     const navigate = useNavigate();
 
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [pickup, setPickup] = useState("");
     const [destination, setDestination] = useState("");
@@ -27,39 +29,56 @@ function NewRide() {
         }
     }, [currentUser, isLoggingOut, navigate]);
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
+        setLoading(true);
 
         if (!pickup || !destination || !departureTime || !availableSeats || !vehicleType) {
             alert("Please fill all required fields");
+            setLoading(false);
             return;
         }
 
-        const newRide = {
-            id: Date.now(),
-            driverName: currentUser.username,
-            createdBy: currentUser.id,
-            pickup,
-            destination,
-            departureTime,
-            availableSeats: Number(availableSeats),
-            vehicleType,
-            contactInfo: currentUser.phone,
-            notes
-        };
+        try {
+            const response = await rideAPI.createRide(pickup, destination, departureTime, availableSeats, vehicleType, notes);
 
-        dispatch(addRide(newRide));
+            if (!response.ride) {
+                alert(response.message || "Failed to post ride");
+                setLoading(false);
+                return;
+            }
 
-        alert("Ride posted successfully");
+            // Update Redux with new ride
+            const newRide = {
+                id: response.ride._id,
+                driverName: response.ride.driverName,
+                createdBy: response.ride.createdBy,
+                pickup: response.ride.pickup,
+                destination: response.ride.destination,
+                departureTime: response.ride.departureTime,
+                availableSeats: response.ride.availableSeats,
+                vehicleType: response.ride.vehicleType,
+                contactInfo: response.ride.contactInfo,
+                notes: response.ride.notes
+            };
 
-        setPickup("");
-        setDestination("");
-        setDepartureTime("");
-        setAvailableSeats("");
-        setVehicleType("");
-        setNotes("");
+            dispatch(addRide(newRide));
 
-        navigate("/rides");
+            alert("Ride posted successfully");
+
+            setPickup("");
+            setDestination("");
+            setDepartureTime("");
+            setAvailableSeats("");
+            setVehicleType("");
+            setNotes("");
+
+            navigate("/rides");
+        } catch (error) {
+            alert("Error posting ride: " + error.message);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -112,7 +131,7 @@ function NewRide() {
                     <label>Notes</label>
                     <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
 
-                    <button type="submit">Post Ride</button>
+                    <button type="submit" disabled={loading}>{loading ? "Posting..." : "Post Ride"}</button>
                 </form>
             </div>
         </div>

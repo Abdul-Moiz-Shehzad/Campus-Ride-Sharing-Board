@@ -2,55 +2,63 @@ import loginCover from '../assets/login_cover.png';
 import { Link, useNavigate } from 'react-router-dom';
 import './Register.css';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { registerUser } from '../redux/userSlice';
+import { userAPI, setToken } from '../api';
 
 function Register() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [phone, setPhone] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const users = useSelector(state => state.user.users);
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
+        setLoading(true);
 
         if (!username || !phone || !password || !confirmPassword) {
             alert("Please fill all fields");
-            return;
-        }
-
-        const usernameExists = users.find(user => user.username.toLowerCase() === username.toLowerCase());
-
-        if (usernameExists) {
-            alert("This username is already taken");
+            setLoading(false);
             return;
         }
 
         if (password !== confirmPassword) {
             alert("Passwords do not match");
+            setLoading(false);
             return;
         }
 
-        const newUser = {
-            id: Date.now(),
-            username,
-            password,
-            phone
-        };
+        try {
+            const response = await userAPI.register(username, password, confirmPassword, phone);
 
-        dispatch(registerUser(newUser));
+            if (!response.token) {
+                alert(response.message || "Registration failed");
+                setLoading(false);
+                return;
+            }
 
-        setUsername("");
-        setPhone("");
-        setPassword("");
-        setConfirmPassword("");
+            // Store token
+            setToken(response.token);
 
-        alert("Registration successful! Please login.");
-        navigate("/login");
+            // Update Redux with user data
+            dispatch(registerUser(response.user));
+
+            setUsername("");
+            setPhone("");
+            setPassword("");
+            setConfirmPassword("");
+
+            alert("Registration successful! Logging you in.");
+            navigate("/dashboard");
+        } catch (error) {
+            alert("Error registering: " + error.message);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -78,7 +86,7 @@ function Register() {
                             <label htmlFor="confirmPassword">Confirm Password</label>
                             <input type="password" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
 
-                            <button type="submit">Register</button>
+                            <button type="submit" disabled={loading}>{loading ? "Registering..." : "Register"}</button>
                             <p className="register-login-text">Already have an account? <Link to="/login">Login</Link></p>
                         </form>
                     </div>
