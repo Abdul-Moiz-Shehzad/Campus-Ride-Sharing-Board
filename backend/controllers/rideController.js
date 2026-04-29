@@ -1,12 +1,9 @@
 const Ride = require('../models/Ride');
 const Booking = require('../models/Booking');
 
-// Create a new ride
 exports.createRide = async (req, res) => {
   try {
     const { pickup, destination, departureTime, availableSeats, vehicleType, notes } = req.body;
-
-    // Validation
     if (!pickup || !destination || !departureTime || !availableSeats || !vehicleType) {
       return res.status(400).json({ message: 'Please provide all required fields' });
     }
@@ -36,7 +33,6 @@ exports.createRide = async (req, res) => {
   }
 };
 
-// Get all rides
 exports.getAllRides = async (req, res) => {
   try {
     const rides = await Ride.find({ status: 'active' })
@@ -49,7 +45,6 @@ exports.getAllRides = async (req, res) => {
   }
 };
 
-// Get a single ride by ID
 exports.getRideById = async (req, res) => {
   try {
     const ride = await Ride.findById(req.params.id).populate('createdBy', 'username phone');
@@ -64,7 +59,6 @@ exports.getRideById = async (req, res) => {
   }
 };
 
-// Update a ride
 exports.updateRide = async (req, res) => {
   try {
     const ride = await Ride.findById(req.params.id);
@@ -73,7 +67,6 @@ exports.updateRide = async (req, res) => {
       return res.status(404).json({ message: 'Ride not found' });
     }
 
-    // Check if user is the ride creator
     if (ride.createdBy.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Not authorized to update this ride' });
     }
@@ -95,7 +88,6 @@ exports.updateRide = async (req, res) => {
   }
 };
 
-// Delete a ride
 exports.deleteRide = async (req, res) => {
   try {
     const ride = await Ride.findById(req.params.id);
@@ -104,13 +96,11 @@ exports.deleteRide = async (req, res) => {
       return res.status(404).json({ message: 'Ride not found' });
     }
 
-    // Check if user is the ride creator
     if (ride.createdBy.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Not authorized to delete this ride' });
     }
 
     await Ride.findByIdAndDelete(req.params.id);
-    // Also delete associated bookings
     await Booking.deleteMany({ rideId: req.params.id });
 
     res.json({ message: 'Ride deleted successfully' });
@@ -119,7 +109,6 @@ exports.deleteRide = async (req, res) => {
   }
 };
 
-// Book a ride
 exports.bookRide = async (req, res) => {
   try {
     const { rideId } = req.body;
@@ -172,7 +161,6 @@ exports.bookRide = async (req, res) => {
   }
 };
 
-// Get user's bookings (rides booked by user)
 exports.getUserBookings = async (req, res) => {
   try {
     const bookings = await Booking.find({ type: 'ride', userId: req.user.id })

@@ -1,12 +1,10 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Register a new user
 exports.register = async (req, res) => {
   try {
     const { username, password, phone, confirmPassword } = req.body;
 
-    // Validation
     if (!username || !password || !phone || !confirmPassword) {
       return res.status(400).json({ message: 'Please provide all required fields' });
     }
@@ -15,13 +13,11 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: 'Passwords do not match' });
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({ username: username.toLowerCase() });
     if (existingUser) {
       return res.status(400).json({ message: 'Username already taken' });
     }
 
-    // Create new user
     const user = new User({
       username,
       password,

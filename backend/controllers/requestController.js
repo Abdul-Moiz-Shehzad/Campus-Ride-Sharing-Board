@@ -1,12 +1,10 @@
 const RideRequest = require('../models/RideRequest');
 const Booking = require('../models/Booking');
 
-// Create a new ride request
 exports.createRequest = async (req, res) => {
   try {
     const { pickup, destination, departureTime, vehicleType, notes } = req.body;
 
-    // Validation
     if (!pickup || !destination || !departureTime || !vehicleType) {
       return res.status(400).json({ message: 'Please provide all required fields' });
     }
@@ -35,7 +33,6 @@ exports.createRequest = async (req, res) => {
   }
 };
 
-// Get all ride requests
 exports.getAllRequests = async (req, res) => {
   try {
     const requests = await RideRequest.find({ status: 'open' })
@@ -48,7 +45,6 @@ exports.getAllRequests = async (req, res) => {
   }
 };
 
-// Get a single request by ID
 exports.getRequestById = async (req, res) => {
   try {
     const request = await RideRequest.findById(req.params.id).populate('userId', 'username phone');
@@ -63,7 +59,6 @@ exports.getRequestById = async (req, res) => {
   }
 };
 
-// Update a request
 exports.updateRequest = async (req, res) => {
   try {
     const request = await RideRequest.findById(req.params.id);
@@ -72,7 +67,6 @@ exports.updateRequest = async (req, res) => {
       return res.status(404).json({ message: 'Request not found' });
     }
 
-    // Check if user is the request creator
     if (request.userId.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Not authorized to update this request' });
     }
@@ -93,7 +87,6 @@ exports.updateRequest = async (req, res) => {
   }
 };
 
-// Delete a request
 exports.deleteRequest = async (req, res) => {
   try {
     const request = await RideRequest.findById(req.params.id);
@@ -102,13 +95,11 @@ exports.deleteRequest = async (req, res) => {
       return res.status(404).json({ message: 'Request not found' });
     }
 
-    // Check if user is the request creator
     if (request.userId.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Not authorized to delete this request' });
     }
 
     await RideRequest.findByIdAndDelete(req.params.id);
-    // Also delete associated bookings
     await Booking.deleteMany({ requestId: req.params.id });
 
     res.json({ message: 'Request deleted successfully' });
@@ -117,7 +108,6 @@ exports.deleteRequest = async (req, res) => {
   }
 };
 
-// Fulfill a request (driver responds to request)
 exports.fulfillRequest = async (req, res) => {
   try {
     const { requestId } = req.body;
@@ -171,7 +161,6 @@ exports.fulfillRequest = async (req, res) => {
   }
 };
 
-// Get user's request responses (requests fulfilled by user)
 exports.getUserResponses = async (req, res) => {
   try {
     const bookings = await Booking.find({ type: 'request', userId: req.user.id })

@@ -4,11 +4,9 @@ const rideController = require('../controllers/rideController');
 
 const router = express.Router();
 
-// Public routes
 router.get('/', rideController.getAllRides);
 router.get('/:id', rideController.getRideById);
 
-// Protected routes
 router.post('/', authMiddleware, rideController.createRide);
 router.put('/:id', authMiddleware, rideController.updateRide);
 router.delete('/:id', authMiddleware, rideController.deleteRide);
